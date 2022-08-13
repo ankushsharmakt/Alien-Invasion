@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+from pygame import mixer
 from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
@@ -86,6 +87,9 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            fire_bullet = mixer.Sound('Sounds/laser.wav')
+            fire_bullet.play()
+
 
     def _update_bullets(self):
         self.bullets.update()
@@ -105,6 +109,8 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            alien_kill = mixer.Sound('Sounds/explosion.wav')
+            alien_kill.play()
 
         if not self.aliens:
             self.bullets.empty()
